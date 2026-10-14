@@ -1,0 +1,13 @@
+# Signing keys and their passwords
+*.p12
+*.jks
+*.keystore
+/fdroid/config.yml
+
+# Build output
+/fdroid/repo
+/fdroid/archive
+/fdroid/tmp
+/fdroid/metadata/*/
+/out
+__pycache__/
