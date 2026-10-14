@@ -12,14 +12,14 @@ The apps are built and signed in their own repositories by their authors. This r
 
 ## How it works
 
-A GitHub Actions workflow (Publish) runs once a day and on every push. For each app in `fdroid/metadata/` it:
+A GitHub Actions workflow (Publish) runs once a day and on every push. It first checks whether anything changed since the live version: this repo's app list, scripts, or page, or any app's releases or store listing. If nothing did, it stops there. Otherwise, for each app in `fdroid/metadata/` it:
 
 1. Downloads the APKs from the app's GitHub Releases.
 2. Checks each APK's attestation, to make sure it was built by a workflow in that app's repository. APKs without one are skipped with a warning.
 3. Grabs the store listing from the app's `fastlane/` folder.
 4. Builds the index with `fdroid update` and deploys it to GitHub Pages.
 
-To publish right away, run the workflow by hand from the Actions tab.
+To publish right away, run the workflow by hand from the Actions tab. A run by hand always builds.
 
 ## Adding an app
 

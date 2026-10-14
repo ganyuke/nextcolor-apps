@@ -1,13 +1,16 @@
 name: Publish
 
 # Rebuilds the F-Droid repo at apps.nextcolor.org from the GitHub Releases of
-# every app listed in fdroid/metadata. Runs once a day, after a change here,
-# and by hand from the Actions tab.
+# every app listed in fdroid/metadata. Runs once a day and after a change
+# here, and only builds when something it is built from changed since the
+# live version (see scripts/inputs.py). A run by hand from the Actions tab
+# always builds.
 on:
   schedule:
     - cron: "17 5 * * *"
   push:
     branches: [main]
+    paths-ignore: ["**.md"]
   workflow_dispatch:
 
 permissions:
@@ -22,7 +25,49 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+  check:
+    runs-on: ubuntu-24.04
+    outputs:
+      inputs: ${{ steps.inputs.outputs.hash }}
+      build: ${{ steps.compare.outputs.build }}
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Hash what the repo is built from
+        id: inputs
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: |
+          hash=$(scripts/inputs.py)
+          echo "hash=$hash" >> "$GITHUB_OUTPUT"
+
+      # Asks GitHub where the site is live, so this works before the custom
+      # domain is set up too.
+      - name: Compare with the live site
+        id: compare
+        env:
+          GH_TOKEN: ${{ github.token }}
+          HASH: ${{ steps.inputs.outputs.hash }}
+        run: |
+          site=$(gh api "repos/$GITHUB_REPOSITORY/pages" --jq .html_url 2>/dev/null || true)
+          live=""
+          if [ -n "$site" ]; then
+            live=$(curl -fsSL "${site%/}/build-inputs.txt" || true)
+          fi
+          if [ "$GITHUB_EVENT_NAME" = workflow_dispatch ]; then
+            echo "Run by hand, building."
+            echo "build=true" >> "$GITHUB_OUTPUT"
+          elif [ "$live" = "$HASH" ]; then
+            echo "::notice::Nothing changed since the live version. Skipped the build."
+            echo "build=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "Live version is ${live:-missing}, new one is $HASH. Building."
+            echo "build=true" >> "$GITHUB_OUTPUT"
+          fi
+
   publish:
+    needs: check
+    if: needs.check.outputs.build == 'true'
     runs-on: ubuntu-24.04
     environment:
       name: github-pages
@@ -77,6 +122,12 @@ jobs:
           ../scripts/site.py "$SITE_URL" "$fingerprint"
           qr --factory=svg-path "$SITE_URL/fdroid/repo?fingerprint=$fingerprint" > ../out/repo-qr.svg
           rm keystore.p12 config.yml
+
+      # The next run compares against this to tell whether anything changed.
+      - name: Save the hash of what this was built from
+        env:
+          HASH: ${{ needs.check.outputs.inputs }}
+        run: echo "$HASH" > out/build-inputs.txt
 
       - uses: actions/upload-pages-artifact@v5
         with:

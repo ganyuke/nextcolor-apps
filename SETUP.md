@@ -27,6 +27,10 @@ Add these as Actions secrets:
 
 A domain can only be on one repository at a time. Remove it from the old one first.
 
+## Skipped builds
+
+The daily run and pushes only build when an app's releases or store listing, or this repo's app list, scripts, or page, changed since the live version. Changing a secret doesn't count, so after replacing the repo key, run the workflow by hand.
+
 ## Scheduled runs
 
 GitHub disables scheduled workflows after 60 days with no commits and emails you about it. The site stays up but stops updating until you re-enable the workflow from the Actions tab.
