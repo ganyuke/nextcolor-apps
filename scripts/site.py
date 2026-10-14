@@ -66,6 +66,7 @@ def main():
     (OUT / "fdroid").mkdir(parents=True)
     shutil.copytree(ROOT / "fdroid/repo", OUT / "fdroid/repo")
     (OUT / "index.html").write_text(page)
+    shutil.copy(ROOT / "site/favicon.ico", OUT)
     print(f"{len(packages)} app(s) on the page")
 
 

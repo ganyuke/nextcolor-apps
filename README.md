@@ -4,9 +4,9 @@ The F-Droid repo at [apps.nextcolor.org](https://apps.nextcolor.org/). Open that
 
 | App | Author | Source |
 | --- | --- | --- |
-| SnapCrop | Vibecoder-jsx | [Vibecoder-jsx/SnapCrop](https://github.com/Vibecoder-jsx/SnapCrop) |
-| Trolley Log | ganyuke | [ganyuke/TrolleyLog](https://github.com/ganyuke/TrolleyLog) |
-| WikiMop | ganyuke | [ganyuke/WikiMop](https://github.com/ganyuke/WikiMop) |
+| SnapCrop | [Vibecoder-jsx](https://github.com/Vibecoder-jsx) | [Vibecoder-jsx/SnapCrop](https://github.com/Vibecoder-jsx/SnapCrop) |
+| Trolley Log | [ganyuke](https://github.com/ganyuke) | [ganyuke/TrolleyLog](https://github.com/ganyuke/TrolleyLog) |
+| WikiMop | [ganyuke](https://github.com/ganyuke) | [ganyuke/WikiMop](https://github.com/ganyuke/WikiMop) |
 
 The apps are built and signed in their own repositories by their authors. This repo downloads the APKs from their GitHub Releases and builds the F-Droid index from them.
 
