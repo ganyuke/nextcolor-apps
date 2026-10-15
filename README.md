@@ -4,7 +4,9 @@ The F-Droid repo at [apps.nextcolor.org](https://apps.nextcolor.org/). Open that
 
 | App | Author | Source |
 | --- | --- | --- |
+| Kotodex | [ganyuke](https://github.com/ganyuke) | [ganyuke/Kotodex](https://github.com/ganyuke/Kotodex) |
 | SnapCrop | [Vibecoder-jsx](https://github.com/Vibecoder-jsx) | [Vibecoder-jsx/SnapCrop](https://github.com/Vibecoder-jsx/SnapCrop) |
+| Tether Tile | [ganyuke](https://github.com/ganyuke) | [ganyuke/TetherTile](https://github.com/ganyuke/TetherTile) |
 | Trolley Log | [ganyuke](https://github.com/ganyuke) | [ganyuke/TrolleyLog](https://github.com/ganyuke/TrolleyLog) |
 | WikiMop | [ganyuke](https://github.com/ganyuke) | [ganyuke/WikiMop](https://github.com/ganyuke/WikiMop) |
 
